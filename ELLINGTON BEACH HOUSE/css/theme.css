@@ -793,10 +793,9 @@ img {
 }
 .interior-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 22vh;
   gap: 0.6rem;
-  min-height: 70vh;
 }
 .i-item {
   background-size: cover;
@@ -1361,4 +1360,112 @@ img {
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+/* =========================================================
+   Photo placeholders — editorial "drop your image here" boxes
+   Replace any .photo-placeholder div with an <img> or
+   background-image to insert the actual photo.
+   ========================================================= */
+.photo-placeholder {
+  background: linear-gradient(135deg, var(--c-cream) 0%, var(--c-sand) 100%);
+  border: 1px solid var(--c-line);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+}
+.photo-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 0.8rem;
+  border: 1px dashed rgba(139, 111, 61, 0.35);
+  pointer-events: none;
+  border-radius: 2px;
+}
+.photo-placeholder .ph-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem;
+  max-width: 90%;
+}
+.photo-placeholder .ph-num {
+  font-family: var(--f-display);
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  color: var(--c-bronze);
+  font-weight: 400;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.01em;
+}
+.photo-placeholder .ph-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--c-graphite);
+  font-weight: 500;
+}
+.photo-placeholder .ph-ru {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: rgba(26, 23, 21, 0.5);
+  margin-top: 0.2rem;
+}
+.photo-placeholder .ph-spec {
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(26, 23, 21, 0.4);
+  margin-top: 0.7rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(139, 111, 61, 0.25);
+}
+
+/* Compact variant — smaller cells (interior grid 20 photos) */
+.photo-placeholder.compact .ph-num { font-size: 1.2rem; margin-bottom: 0.2rem; }
+.photo-placeholder.compact .ph-label { font-size: 0.55rem; letter-spacing: 0.22em; }
+.photo-placeholder.compact .ph-spec,
+.photo-placeholder.compact .ph-ru { display: none; }
+.photo-placeholder.compact::before { inset: 0.5rem; }
+
+/* Video variant — adds play circle */
+.photo-placeholder.video .ph-content { padding-top: 5rem; }
+.photo-placeholder.video::after {
+  content: "▶";
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1.5px solid var(--c-bronze);
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-bronze);
+  font-size: 1.4rem;
+  padding-left: 4px;
+}
+
+/* Dark variant — for .slide-end if needed */
+.photo-placeholder.dark {
+  background: linear-gradient(135deg, var(--c-graphite) 0%, var(--c-ink) 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.photo-placeholder.dark::before { border-color: rgba(201, 169, 97, 0.3); }
+.photo-placeholder.dark .ph-num { color: var(--c-champagne); }
+.photo-placeholder.dark .ph-label { color: rgba(255, 255, 255, 0.85); }
+.photo-placeholder.dark .ph-ru { color: rgba(255, 255, 255, 0.5); }
+.photo-placeholder.dark .ph-spec {
+  color: rgba(255, 255, 255, 0.4);
+  border-top-color: rgba(201, 169, 97, 0.2);
 }

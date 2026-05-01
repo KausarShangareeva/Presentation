@@ -1163,7 +1163,7 @@ img {
 }
 
 /* Lift content above the pattern overlay */
-.slide-price > div,
+.slide-price > div:not(.dark-pattern):not(.brand-rail),
 .slide-price > .price-card,
 .slide-gallery > .gallery-head,
 .slide-gallery > .gallery-grid {

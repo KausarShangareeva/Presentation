@@ -18,6 +18,10 @@
 
   --f-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
   --f-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* ════ Pattern opacity controls (change these to tune all slides) ════ */
+  --pattern-opacity-light: 0.28; /* Cover slide (cream background) */
+  --pattern-opacity-dark: 0.07;  /* Pricing, Gallery, Closing (dark background) */
 }
 
 * {
@@ -277,7 +281,7 @@ img {
   inset: 0;
   background: url("../assets/icons/pattern.svg") repeat;
   background-size: 520px auto;
-  opacity: 0.28;
+  opacity: var(--pattern-opacity-light);
   z-index: 1;
   pointer-events: none;
   -webkit-mask-image: radial-gradient(
@@ -1151,7 +1155,7 @@ img {
   inset: 0;
   background: url("../assets/icons/pattern.svg") repeat;
   background-size: 480px auto;
-  opacity: 0.07;
+  opacity: var(--pattern-opacity-dark);
   z-index: 0;
   pointer-events: none;
 }

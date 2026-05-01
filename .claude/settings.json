@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git config *)",
+      "Bash(git add *)"
+    ],
+    "additionalDirectories": [
+      "c:\\Projects\\Presentation",
+      "c:\\Projects\\Presentation\\icons"
+    ]
+  }
+}

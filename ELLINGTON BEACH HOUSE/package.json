@@ -1,0 +1,17 @@
+{
+  "name": "ellington-beach-house",
+  "version": "1.0.0",
+  "description": "Ellington Beach House — luxury real estate presentation",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8080 -o /index.html",
+    "dev": "npx http-server -p 8080 -c-1 -o /index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "reveal.js": "^6.0.1"
+  }
+}

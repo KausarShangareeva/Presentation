@@ -525,8 +525,11 @@ img {
 /* ---------- Slide 2 — Stats ---------- */
 .slide-stats {
   background: var(--c-cream);
-  grid-template-columns: 1fr;
-  align-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 14vh;
+  gap: 2vh;
 }
 .stats-eyebrow {
   display: flex;
@@ -793,9 +796,9 @@ img {
 }
 .interior-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 22vh;
-  gap: 0.6rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 32vh;
+  gap: 0.8rem;
 }
 .i-item {
   background-size: cover;
@@ -1405,9 +1408,11 @@ img {
 .photo-placeholder.compact .ph-num { font-size: 1.1rem; }
 .photo-placeholder.compact .ph-label { font-size: 0.55rem; letter-spacing: 0.22em; }
 
-/* Dark variant — for gallery slide */
+/* Dark variant — for gallery slide. Use a contrasting tint so boxes
+   are visible against the graphite slide background. */
 .photo-placeholder.dark {
-  background: var(--c-graphite);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 .photo-placeholder.dark .ph-num { color: var(--c-champagne); }
 .photo-placeholder.dark .ph-label { color: rgba(255, 255, 255, 0.85); }

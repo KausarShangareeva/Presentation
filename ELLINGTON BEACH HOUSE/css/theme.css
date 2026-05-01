@@ -20,8 +20,8 @@
   --f-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* ════ Pattern opacity controls (change these to tune all slides) ════ */
-  --pattern-opacity-light: 0.28; /* Cover slide (cream background) */
-  --pattern-opacity-dark: 0.07;  /* Pricing, Gallery, Closing (dark background) */
+  --pattern-opacity-light: 0.18; /* Cover slide (cream background) */
+  --pattern-opacity-dark: 0.03; /* Pricing, Gallery, Closing (dark background) */
 }
 
 * {

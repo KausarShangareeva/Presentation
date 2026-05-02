@@ -2,7 +2,47 @@
    ELLINGTON BEACH HOUSE — Editorial Luxury · Vertical Scroll
    Palette: Sand · Champagne · Bronze · Charcoal
    Type:    Cormorant Garamond (display) · Inter (UI)
+            Montserrat — Cyrillic override for Russian text
    ========================================================= */
+
+/* Russian/Cyrillic glyphs render in Montserrat across all families */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459W1hyzbi.woff2")
+    format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459WRhyzbi.woff2")
+    format("woff2");
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459W1hyzbi.woff2")
+    format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459W1hyzbi.woff2")
+    format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
 
 :root {
   --c-cream: #f4efe7;
@@ -17,7 +57,11 @@
   --c-line-light: rgba(255, 255, 255, 0.18);
 
   --f-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
-  --f-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --f-body: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* ════ 16:9 widescreen — modern web + print-fits-A4 landscape ════ */
+  --slide-print-w: 297mm; /* A4 landscape width */
+  --slide-print-h: 167mm; /* 16:9 of 297mm — fits inside A4 with 21.5mm vertical margin */
 
   /* ════ Pattern opacity controls (change these to tune all slides) ════ */
   --pattern-opacity-light: 0.18; /* Cover slide (cream background) */
@@ -30,15 +74,19 @@
 html,
 body {
   margin: 0;
-  padding: 0;
-  background: var(--c-bone);
+  background: #1f1d1b; /* deep pasteboard — modern presentation feel */
   color: var(--c-ink);
   font-family: var(--f-body);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: 17px;
+  line-height: 1.6;
   scroll-behavior: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3vw;
+  padding: 3vw 0;
 }
 
 /* Subtle film grain — keeps editorial feel */
@@ -66,19 +114,19 @@ h4 {
   margin: 0;
 }
 h1 {
-  font-size: clamp(4rem, 8vw, 8.5rem);
+  font-size: clamp(4rem, 8cqw, 8.5rem);
   font-weight: 300;
 }
 h2 {
-  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-size: clamp(2.5rem, 5cqw, 5rem);
   font-weight: 300;
 }
 h3 {
-  font-size: clamp(1.6rem, 2.6vw, 2.6rem);
+  font-size: clamp(1.6rem, 2.6cqw, 2.6rem);
 }
 
 p {
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.65;
   font-size: 1rem;
   color: var(--c-graphite);
@@ -113,22 +161,58 @@ img {
   color: var(--c-bronze);
 }
 
-/* ---------- Slide / Section base ---------- */
+/* ---------- Slide / Section base — 16:9 responsive (web), A4 (print) ---------- */
 .slide {
   position: relative;
-  min-height: 100vh;
-  width: 100%;
-  padding: 12vh 6vw 8vh;
+  width: min(96vw, 1600px);
+  aspect-ratio: 16 / 9;
+  padding: 6.75cqw 6cqw 4.5cqw;
   display: grid;
   overflow: hidden;
+  container-type: inline-size; /* cqw = % of slide width */
+  page-break-after: always;
+  break-after: page;
+  box-shadow: 0 1.2vh 4vh rgba(0, 0, 0, 0.45); /* screen-only page lift */
+  border-radius: 3px;
+}
+
+/* ---------- Print — fit 16:9 inside A4 landscape ---------- */
+@page {
+  size: A4 landscape;
+  margin: 21.5mm 0; /* centers 167mm slide vertically inside 210mm page */
+}
+@media print {
+  body {
+    background: #fff;
+    padding: 0;
+    gap: 0;
+    display: block;
+  }
+  body::after {
+    display: none; /* no film grain on print */
+  }
+  .slide {
+    width: var(--slide-print-w);
+    height: var(--slide-print-h);
+    aspect-ratio: auto;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+    page-break-after: always;
+    break-after: page;
+  }
+  .slide:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
 }
 
 /* Brand rail */
 .brand-rail {
   position: absolute;
-  top: 4vh;
-  left: 6vw;
-  right: 6vw;
+  top: 2.25cqw;
+  left: 6cqw;
+  right: 6cqw;
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -156,7 +240,7 @@ img {
 
 /* Brand logo (TopAddress) */
 .logo-img {
-  height: 46px;
+  height: 36px;
   width: auto;
   display: block;
   flex-shrink: 0;
@@ -164,12 +248,12 @@ img {
 
 /* ========== Bilingual typography helpers ========== */
 .ru-sub {
-  font-family: var(--f-body);
-  font-size: 0.7rem;
+  font-family: "Montserrat", var(--f-body);
+  font-size: 0.85rem;
   font-weight: 400;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(26, 23, 21, 0.5);
+  color: rgba(26, 23, 21, 0.6);
   margin-top: 0.3rem;
   display: block;
 }
@@ -188,7 +272,7 @@ img {
   font-style: italic;
   font-weight: 300;
   color: var(--c-graphite);
-  font-size: clamp(1.3rem, 1.9vw, 1.9rem);
+  font-size: clamp(1.3rem, 1.9cqw, 1.9rem);
   line-height: 1.2;
   margin-top: 0.6rem;
   letter-spacing: 0;
@@ -250,8 +334,8 @@ img {
 /* Page number */
 .page-num {
   position: absolute;
-  bottom: 4vh;
-  right: 6vw;
+  bottom: 2.25cqw;
+  right: 6cqw;
   font-size: 0.7rem;
   letter-spacing: 0.3em;
   color: var(--c-graphite);
@@ -267,11 +351,10 @@ img {
   background: var(--c-bone);
   display: grid;
   grid-template-rows: auto 1fr auto;
-  padding: 6vh 8vw;
-  gap: 3vh;
+  padding: 3.4cqw 8cqw;
+  gap: 1.7cqw;
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
   text-align: center;
 }
 
@@ -300,8 +383,61 @@ img {
   position: relative;
   z-index: 5;
 }
-.cover-top .logo-img {
-  height: 60px;
+/* Editorial brand lockup — mark + typeset wordmark.
+   Replaces the wide raster wordmark for crisp, scalable typography. */
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.brand-lockup .brand-mark {
+  height: 56px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+.brand-wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  line-height: 1;
+}
+.brand-name {
+  font-family: var(--f-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-ink);
+}
+.brand-sub {
+  font-family: var(--f-body);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--c-bronze);
+}
+.brand-lockup.dark .brand-name {
+  color: var(--c-bone);
+}
+.brand-lockup.dark .brand-sub {
+  color: var(--c-champagne);
+}
+
+.cover-top .brand-lockup {
+  gap: 1rem;
+}
+.cover-top .brand-mark {
+  height: 64px;
+}
+.cover-top .brand-name {
+  font-size: 1.6rem;
+  letter-spacing: 0.28em;
+}
+.cover-top .brand-sub {
+  font-size: 0.68rem;
+  letter-spacing: 0.5em;
 }
 .cover-top .edition-tag {
   font-size: 0.65rem;
@@ -322,7 +458,7 @@ img {
   gap: 2rem;
   position: relative;
   z-index: 3;
-  padding: 4vh 0;
+  padding: 2.25cqw 0;
 }
 
 .cover-eyebrow {
@@ -345,7 +481,7 @@ img {
 
 .cover-title {
   font-family: var(--f-display);
-  font-size: clamp(5rem, 11vw, 12rem);
+  font-size: clamp(5rem, 11cqw, 12rem);
   font-weight: 300;
   line-height: 0.88;
   letter-spacing: -0.03em;
@@ -360,7 +496,7 @@ img {
 
 .cover-tagline {
   font-family: var(--f-display);
-  font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+  font-size: clamp(1.2rem, 1.5cqw, 1.5rem);
   font-style: italic;
   font-weight: 300;
   color: var(--c-graphite);
@@ -427,7 +563,7 @@ img {
 .slide-hero {
   background: var(--c-bone);
   grid-template-columns: 1.1fr 1fr;
-  gap: 3vw;
+  gap: 3cqw;
   align-items: end;
 }
 .slide-hero .left {
@@ -441,11 +577,11 @@ img {
   display: grid;
   grid-template-rows: 1.4fr 1fr;
   gap: 1rem;
-  min-height: 70vh;
+  min-height: 39.4cqw;
 }
 
 .hero-title {
-  font-size: clamp(4.5rem, 8.2vw, 8.4rem);
+  font-size: clamp(4.5rem, 8.2cqw, 8.4rem);
   line-height: 0.92;
   font-weight: 300;
   letter-spacing: -0.025em;
@@ -459,10 +595,7 @@ img {
   overflow: hidden;
 }
 .hero-img::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.15));
+  display: none;
 }
 
 .hero-meta {
@@ -528,19 +661,18 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 14vh;
-  gap: 2vh;
+  padding-top: 7.9cqw;
+  gap: 1.1cqw;
 }
 .stats-eyebrow {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   margin-bottom: 4rem;
 }
 .stats-eyebrow .line {
-  flex: 1;
-  height: 1px;
-  background: var(--c-line);
+  display: none;
 }
 
 .stats-grid {
@@ -572,7 +704,7 @@ img {
 }
 .stat .value {
   font-family: var(--f-display);
-  font-size: clamp(3.5rem, 6vw, 5.5rem);
+  font-size: clamp(3.5rem, 6cqw, 5.5rem);
   font-weight: 300;
   line-height: 0.9;
   letter-spacing: -0.02em;
@@ -674,17 +806,14 @@ img {
   align-items: start;
 }
 .desc-img {
-  height: 70vh;
+  height: 39.4cqw;
   background-size: cover;
   background-position: center;
   border-radius: 2px;
   position: relative;
 }
 .desc-img::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 70%, rgba(0, 0, 0, 0.25));
+  display: none;
 }
 .desc-content {
   display: flex;
@@ -693,7 +822,7 @@ img {
   padding-top: 1rem;
 }
 .desc-title {
-  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-size: clamp(3rem, 5cqw, 4.5rem);
 }
 .desc-bilingual {
   display: grid;
@@ -723,7 +852,7 @@ img {
   background: var(--c-graphite);
   grid-template-rows: auto 1fr;
   gap: 2rem;
-  min-height: 100vh;
+  min-height: 56.25cqw;
 }
 .slide-gallery h2 {
   color: var(--c-bone);
@@ -744,7 +873,7 @@ img {
   grid-template-columns: 2fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 0.8rem;
-  min-height: 70vh;
+  min-height: 39.4cqw;
 }
 .g-item {
   background-size: cover;
@@ -797,8 +926,15 @@ img {
 .interior-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 32vh;
+  grid-template-rows: repeat(2, 1fr);
   gap: 0.8rem;
+  height: 100%;
+}
+/* Feature variant — 2 large panoramic placeholders for views/hero slide */
+.interior-grid.feature {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  gap: 1.2rem;
 }
 .i-item {
   background-size: cover;
@@ -819,24 +955,24 @@ img {
 .layout-info {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 .spec-list {
-  margin: 1.5rem 0 0;
+  margin: 1rem 0 0;
   border-top: 1px solid var(--c-line);
 }
 .spec-list li {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 1.2rem;
-  padding: 1.1rem 0;
+  gap: 1rem;
+  padding: 0.7rem 0;
   border-bottom: 1px solid var(--c-line);
   align-items: center;
-  font-size: 0.92rem;
+  font-size: 0.85rem;
 }
 .spec-list li .ico {
-  width: 55px;
-  height: 55px;
+  width: 36px;
+  height: 36px;
   opacity: 0.8;
 }
 .spec-list li .lbl {
@@ -852,15 +988,15 @@ img {
 .layout-plan {
   background: var(--c-bone);
   border: 1px solid var(--c-line);
-  padding: 2rem;
+  padding: 1.4rem;
   border-radius: 2px;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 .plan-img {
   width: 100%;
-  height: 50vh;
+  height: 22cqw;
   background: white;
   border: 1px solid var(--c-line);
   display: flex;
@@ -907,8 +1043,8 @@ img {
   align-items: center;
 }
 .loc-map {
-  height: 55vh;
-  background: linear-gradient(135deg, var(--c-cream) 0%, var(--c-sand) 100%);
+  height: 22cqw;
+  background: var(--c-cream);
   border-radius: 2px;
   position: relative;
   overflow: hidden;
@@ -935,7 +1071,7 @@ img {
 }
 .loc-map .map-text .map-title {
   font-family: var(--f-display);
-  font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+  font-size: clamp(1.8rem, 2.8cqw, 2.6rem);
   font-weight: 400;
   color: var(--c-ink);
   letter-spacing: -0.01em;
@@ -983,18 +1119,18 @@ img {
   grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
   border-top: 1px solid var(--c-line);
-  padding-top: 1.5rem;
+  padding-top: 0.8rem;
 }
 .amenity {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 0.5rem;
+  gap: 0.4rem;
+  padding: 0.4rem 0.5rem;
 }
 .amenity img {
-  width: 55px;
-  height: 55px;
+  width: 36px;
+  height: 36px;
   opacity: 0.8;
 }
 .amenity span {
@@ -1010,8 +1146,8 @@ img {
   background: var(--c-bone);
   display: flex;
   flex-direction: column;
-  gap: 4vh;
-  padding: 12vh 6vw 8vh;
+  gap: 2.25cqw;
+  padding: 6.75cqw 6cqw 4.5cqw;
   align-content: center;
   position: relative;
 }
@@ -1027,7 +1163,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin-top: 2vh;
+  margin-top: 1.1cqw;
 }
 
 .advisor-divider {
@@ -1075,7 +1211,7 @@ img {
 
 .advisor-name {
   font-family: var(--f-display);
-  font-size: clamp(2rem, 3vw, 2.6rem);
+  font-size: clamp(2rem, 3cqw, 2.6rem);
   font-weight: 400;
   color: var(--c-bronze);
   line-height: 1;
@@ -1092,7 +1228,7 @@ img {
 
 .advisor-quote {
   font-family: var(--f-display);
-  font-size: clamp(1.1rem, 1.4vw, 1.4rem);
+  font-size: clamp(1.1rem, 1.4cqw, 1.4rem);
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -1127,16 +1263,15 @@ img {
   justify-self: end;
 }
 
-/* ---------- Slide 10 — Contact / Farewell ---------- */
+/* ---------- Slide 11 — Contact / Farewell ---------- */
 .slide-end {
   background: var(--c-ink);
   color: var(--c-bone);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 14vh 8vw 6vh;
-  gap: 4vh;
-  min-height: 100vh;
+  padding: 5cqw 6cqw 3cqw;
+  gap: 1.5cqw;
   position: relative;
   overflow: hidden;
 }
@@ -1163,7 +1298,7 @@ img {
 }
 
 /* Lift content above the pattern overlay */
-.slide-price > div:not(.dark-pattern):not(.brand-rail),
+.slide-price > div:not(.dark-pattern):not(.brand-rail):not(.page-num),
 .slide-price > .price-card,
 .slide-gallery > .gallery-head,
 .slide-gallery > .gallery-grid {
@@ -1174,12 +1309,12 @@ img {
 .end-hero {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.8rem;
   position: relative;
   z-index: 2;
-  max-width: 900px;
-  margin-top: auto;
-  margin-bottom: 2vh;
+  max-width: 60cqw;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .end-hero .end-divider {
   width: 80px;
@@ -1191,16 +1326,16 @@ img {
 .contact-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2.5rem;
-  padding-top: 3rem;
+  gap: 1.5rem;
+  padding-top: 1.2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   position: relative;
   z-index: 2;
 }
 .contact-block .ico {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 1.2rem;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 0.7rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1215,19 +1350,19 @@ img {
   stroke-width: 1.5;
 }
 .contact-block .l {
-  font-size: 0.62rem;
-  letter-spacing: 0.32em;
+  font-size: 0.6rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--c-champagne);
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.4rem;
   font-weight: 500;
 }
 .contact-block .v {
   font-family: var(--f-display);
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 400;
   color: var(--c-bone);
-  line-height: 1.4;
+  line-height: 1.3;
   letter-spacing: 0.01em;
 }
 .contact-block a.v {
@@ -1242,9 +1377,9 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: end;
-  gap: 2rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
-  padding-top: 2rem;
+  padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   position: relative;
   z-index: 2;
@@ -1254,10 +1389,19 @@ img {
   flex-direction: column;
   gap: 0.6rem;
 }
-.end-foot .signoff .logo-img {
-  height: 36px;
-  filter: brightness(0) invert(1);
-  opacity: 0.9;
+.end-foot .signoff .brand-lockup {
+  gap: 0.7rem;
+}
+.end-foot .signoff .brand-mark {
+  height: 40px;
+}
+.end-foot .signoff .brand-name {
+  font-size: 1.05rem;
+  letter-spacing: 0.25em;
+}
+.end-foot .signoff .brand-sub {
+  font-size: 0.55rem;
+  letter-spacing: 0.42em;
 }
 .end-foot .signoff .tag {
   font-size: 0.65rem;
@@ -1296,74 +1440,8 @@ img {
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 1100px) {
-  .slide-hero,
-  .slide-desc,
-  .slide-price,
-  .slide-layout,
-  .loc-body {
-    grid-template-columns: 1fr !important;
-  }
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-  .stat {
-    border-right: none;
-    border-bottom: 1px solid var(--c-line);
-  }
-  .stat:last-child {
-    border-bottom: none;
-  }
-  .gallery-grid,
-  .interior-grid {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-  }
-  .g-item.tall {
-    grid-row: auto;
-  }
-  .amenities {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .end-content {
-    max-width: 100%;
-  }
-  .loc-bilingual {
-    grid-template-columns: 1fr;
-  }
-  .cover-foot {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  .cover-foot .credit.right {
-    text-align: left;
-  }
-  .advisor-body {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    text-align: left;
-  }
-  .advisor-photo {
-    width: 140px;
-    height: 140px;
-  }
-  .advisor-foot {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  .advisor-foot .cta {
-    justify-self: start;
-  }
-  .contact-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-  .end-foot {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
+/* Removed responsive @media (max-width: 1100px) — slides are now fixed
+   A4 landscape (297×210mm) and must not reflow with browser width. */
 
 /* =========================================================
    Photo placeholders — minimal "drop your image here" boxes
@@ -1387,7 +1465,7 @@ img {
 }
 .photo-placeholder .ph-num {
   font-family: var(--f-display);
-  font-size: clamp(1.4rem, 2vw, 2rem);
+  font-size: clamp(1.4rem, 2cqw, 2rem);
   color: var(--c-bronze);
   font-weight: 400;
   line-height: 1;

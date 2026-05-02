@@ -1439,9 +1439,217 @@ img {
   fill: var(--c-ink);
 }
 
-/* ---------- Responsive ---------- */
-/* Removed responsive @media (max-width: 1100px) — slides are now fixed
-   A4 landscape (297×210mm) and must not reflow with browser width. */
+/* ---------- Responsive — phone (≤768px) ----------
+   Slides drop the 16:9 aspect lock, become vertical pages with
+   stacked content. Multi-column grids reduce or collapse to 1col.
+   Print mode (A4 landscape) is unaffected. */
+@media screen and (max-width: 768px) {
+  body {
+    background: #fff;
+    padding: 0;
+    gap: 0;
+    display: block;
+    font-size: 16px;
+  }
+  body::after {
+    display: none; /* drop film grain on mobile — perf + clarity */
+  }
+
+  .slide {
+    width: 100vw;
+    aspect-ratio: auto;
+    min-height: 100vh;
+    height: auto;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 72px 22px 64px;
+  }
+
+  /* Brand rail + page-num: flat positioning relative to mobile slide */
+  .brand-rail {
+    top: 22px;
+    left: 22px;
+    right: 22px;
+    gap: 0.8rem;
+  }
+  .page-num {
+    bottom: 22px;
+    right: 22px;
+  }
+  .logo-img {
+    height: 28px;
+  }
+
+  /* All 2-column slide layouts → single column */
+  .slide-hero,
+  .slide-desc,
+  .slide-price,
+  .slide-layout,
+  .loc-body,
+  .advisor-body,
+  .advisor-foot {
+    grid-template-columns: 1fr !important;
+    gap: 1.6rem !important;
+  }
+
+  /* Cover — tighter padding, stack foot vertically */
+  .slide-cover {
+    padding: 28px 22px;
+    gap: 18px;
+  }
+  .cover-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .cover-foot .credit.right {
+    text-align: left;
+  }
+  .cover-top .brand-mark {
+    height: 48px;
+  }
+  .cover-top .brand-name {
+    font-size: 1.2rem;
+    letter-spacing: 0.22em;
+  }
+  .cover-top .brand-sub {
+    font-size: 0.55rem;
+    letter-spacing: 0.4em;
+  }
+
+  /* Stats — 3 columns become a single stack */
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .stat {
+    border-right: none;
+    border-bottom: 1px solid var(--c-line);
+    padding: 1.6rem 0;
+  }
+  .stat:last-child {
+    border-bottom: none;
+  }
+  .stats-eyebrow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Hero meta in column */
+  .hero-meta {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: flex-start;
+  }
+
+  /* Interior grids: 2-up on phone, sea-views feature stays single */
+  .interior-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    height: auto;
+  }
+  .interior-grid.feature {
+    grid-template-columns: 1fr;
+  }
+  .i-item {
+    aspect-ratio: 4 / 3;
+    min-height: 0;
+  }
+
+  /* Gallery grid: 2-up */
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    min-height: 0;
+  }
+  .g-item {
+    aspect-ratio: 4 / 3;
+  }
+  .g-item.tall {
+    grid-row: auto;
+  }
+
+  /* Floor plan — image gets reasonable mobile height */
+  .plan-img {
+    height: 220px;
+  }
+  .layout-plan {
+    padding: 1rem;
+  }
+
+  /* Location map */
+  .loc-map {
+    height: 240px;
+  }
+  .loc-bilingual {
+    grid-template-columns: 1fr;
+  }
+
+  /* Amenities: 6 → 3 columns */
+  .amenities {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Pricing card */
+  .price-row {
+    grid-template-columns: 1fr auto;
+    gap: 0.6rem 1rem;
+    padding: 1.2rem 0;
+  }
+  .price-row .v {
+    font-size: 1.5rem;
+    min-width: 0;
+  }
+  .price-row.feature {
+    margin: 0 -1rem;
+    padding: 1.2rem 1rem;
+  }
+  .price-card {
+    padding: 1.5rem;
+  }
+
+  /* Closing slide */
+  .contact-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+  }
+  .end-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+  .end-hero {
+    max-width: 100%;
+  }
+
+  /* Advisor card */
+  .advisor-photo {
+    width: 120px;
+    height: 120px;
+  }
+  .advisor-foot .cta {
+    justify-self: start;
+  }
+
+  /* Bilingual blocks */
+  .bilingual {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Spec list — keep but smaller */
+  .spec-list li {
+    grid-template-columns: auto 1fr auto;
+    gap: 0.8rem;
+    padding: 0.6rem 0;
+    font-size: 0.85rem;
+  }
+  .spec-list li .ico {
+    width: 28px;
+    height: 28px;
+  }
+}
 
 /* =========================================================
    Photo placeholders — minimal "drop your image here" boxes

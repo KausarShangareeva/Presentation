@@ -570,7 +570,7 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 2rem;
+  gap: 1.2rem;
 }
 .slide-hero .right {
   position: relative;
@@ -601,50 +601,50 @@ img {
 /* Hero spec list — icon + bilingual label + dual values (sqft + sqm) */
 .hero-specs {
   list-style: none;
-  margin: 1.2rem 0 0;
+  margin: 0.8rem 0 0;
   padding: 0;
   border-top: 1px solid var(--c-line);
 }
 .hero-specs li {
   display: grid;
-  grid-template-columns: 36px 1.4fr 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: 28px 1.4fr 1fr 1fr;
+  gap: 0.9rem;
   align-items: center;
-  padding: 0.85rem 0;
+  padding: 0.55rem 0;
   border-bottom: 1px solid var(--c-line);
 }
 .hero-specs .ico {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   opacity: 0.85;
 }
 .hero-specs .lbl .en {
   font-family: var(--f-display);
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   font-weight: 400;
   color: var(--c-ink);
   letter-spacing: 0.005em;
   line-height: 1.15;
 }
 .hero-specs .lbl .ru {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   color: var(--c-graphite);
-  margin-top: 0.15rem;
+  margin-top: 0.1rem;
   letter-spacing: 0.01em;
 }
 .hero-specs .val .num {
   font-family: var(--f-display);
-  font-size: 1.55rem;
+  font-size: 1.35rem;
   color: var(--c-ink);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
   line-height: 1;
 }
 .hero-specs .val .unit {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   letter-spacing: 0.04em;
   color: rgba(26, 23, 21, 0.55);
-  margin-top: 0.25rem;
+  margin-top: 0.2rem;
 }
 .hero-specs .val.empty {
   visibility: hidden;
@@ -829,28 +829,31 @@ img {
 /* ---------- Slide 4 — Description ---------- */
 .slide-desc {
   background: var(--c-bone);
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 2.5rem;
   align-items: start;
 }
-.desc-img {
-  height: 39.4cqw;
-  background-size: cover;
-  background-position: center;
-  border-radius: 2px;
-  position: relative;
-}
-.desc-img::after {
-  display: none;
-}
 .desc-content {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding-top: 1rem;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 2fr;
+  gap: 4rem;
+  align-items: start;
 }
 .desc-title {
-  font-size: clamp(3rem, 5cqw, 4.5rem);
+  font-size: clamp(2.6rem, 4.4cqw, 4rem);
+  line-height: 0.95;
+}
+.desc-content .bilingual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-top: 0;
+  align-items: start;
+}
+.slide-desc .bilingual .lang p {
+  font-size: 0.82rem;
+  line-height: 1.55;
 }
 .desc-bilingual {
   display: grid;
@@ -1515,7 +1518,8 @@ img {
   .slide-layout,
   .loc-body,
   .advisor-body,
-  .advisor-foot {
+  .advisor-foot,
+  .desc-content {
     grid-template-columns: 1fr !important;
     gap: 1.6rem !important;
   }

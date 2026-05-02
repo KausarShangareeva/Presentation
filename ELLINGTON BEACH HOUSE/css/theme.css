@@ -836,13 +836,32 @@ img {
 }
 .desc-content {
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) 2fr;
-  gap: 4rem;
-  align-items: start;
+  grid-template-columns: minmax(280px, 1fr) 1.6fr;
+  gap: 3.5rem;
+  align-items: stretch;
+  height: 100%;
+}
+.desc-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-height: 0;
 }
 .desc-title {
   font-size: clamp(2.6rem, 4.4cqw, 4rem);
   line-height: 0.95;
+}
+.desc-img {
+  flex: 1;
+  min-height: 12rem;
+  background-size: cover;
+  background-position: center;
+  border-radius: 2px;
+  position: relative;
+  margin-top: 0.5rem;
+}
+.desc-img::after {
+  display: none;
 }
 .desc-content .bilingual {
   display: grid;

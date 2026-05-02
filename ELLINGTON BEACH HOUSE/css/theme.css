@@ -827,47 +827,42 @@ img {
 }
 
 /* ---------- Slide 4 — Description ---------- */
+/* Description slide — editorial spread: portrait photo + content */
 .slide-desc {
   background: var(--c-bone);
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-  gap: 2.5rem;
-  align-items: start;
-}
-.desc-content {
-  display: grid;
-  grid-template-columns: minmax(280px, 1fr) 1.6fr;
+  grid-template-columns: 0.7fr 1fr;
   gap: 3.5rem;
   align-items: stretch;
-  height: 100%;
 }
-.desc-head {
+.desc-img {
+  align-self: stretch;
+  height: 100%;
+  min-height: 0;
+  background-size: cover;
+  background-position: center;
+  border-radius: 2px;
+  position: relative;
+  /* Editorial anchor — slightly extend to mimic magazine bleed */
+  margin-left: -3cqw;
+}
+.desc-img::after {
+  display: none;
+}
+.desc-content {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  min-height: 0;
+  gap: 1.4rem;
+  padding-top: 0.5rem;
 }
 .desc-title {
   font-size: clamp(2.6rem, 4.4cqw, 4rem);
   line-height: 0.95;
 }
-.desc-img {
-  flex: 1;
-  min-height: 12rem;
-  background-size: cover;
-  background-position: center;
-  border-radius: 2px;
-  position: relative;
-  margin-top: 0.5rem;
-}
-.desc-img::after {
-  display: none;
-}
 .desc-content .bilingual {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  margin-top: 0;
+  gap: 2.5rem;
+  margin-top: 1rem;
   align-items: start;
 }
 .slide-desc .bilingual .lang p {

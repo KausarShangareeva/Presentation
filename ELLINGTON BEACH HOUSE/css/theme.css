@@ -598,28 +598,56 @@ img {
   display: none;
 }
 
-.hero-meta {
-  display: flex;
-  gap: 3rem;
-  align-items: center;
-  padding-top: 1.5rem;
+/* Hero spec list — icon + bilingual label + dual values (sqft + sqm) */
+.hero-specs {
+  list-style: none;
+  margin: 1.2rem 0 0;
+  padding: 0;
   border-top: 1px solid var(--c-line);
 }
-.hero-meta .item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
+.hero-specs li {
+  display: grid;
+  grid-template-columns: 36px 1.4fr 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--c-line);
 }
-.hero-meta .v {
+.hero-specs .ico {
+  width: 32px;
+  height: 32px;
+  opacity: 0.85;
+}
+.hero-specs .lbl .en {
   font-family: var(--f-display);
-  font-size: 1.6rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--c-ink);
+  letter-spacing: 0.005em;
+  line-height: 1.15;
+}
+.hero-specs .lbl .ru {
+  font-size: 0.78rem;
+  color: var(--c-graphite);
+  margin-top: 0.15rem;
+  letter-spacing: 0.01em;
+}
+.hero-specs .val .num {
+  font-family: var(--f-display);
+  font-size: 1.55rem;
+  color: var(--c-ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
   line-height: 1;
 }
-.hero-meta .l {
-  font-size: 0.65rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--c-bronze);
+.hero-specs .val .unit {
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: rgba(26, 23, 21, 0.55);
+  margin-top: 0.25rem;
+}
+.hero-specs .val.empty {
+  visibility: hidden;
 }
 
 .cta-row {
@@ -1536,11 +1564,28 @@ img {
     margin-bottom: 1.5rem;
   }
 
-  /* Hero meta in column */
-  .hero-meta {
-    flex-direction: column;
-    gap: 1.2rem;
-    align-items: flex-start;
+  /* Hero specs — drop second value column on mobile, stack rows */
+  .hero-specs li {
+    grid-template-columns: 28px 1fr auto;
+    gap: 0.8rem;
+    padding: 0.7rem 0;
+  }
+  .hero-specs .ico {
+    width: 26px;
+    height: 26px;
+  }
+  .hero-specs .lbl .en {
+    font-size: 1rem;
+  }
+  .hero-specs .lbl .ru {
+    font-size: 0.72rem;
+  }
+  .hero-specs .val .num {
+    font-size: 1.2rem;
+  }
+  .hero-specs .val + .val {
+    /* Hide second val column on mobile — first val is enough */
+    display: none;
   }
 
   /* Interior grids: 2-up on phone, sea-views feature stays single */
